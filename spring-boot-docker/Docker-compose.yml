@@ -1,0 +1,23 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    container_name: "mongoDB"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+  springboot:
+    image: spring-boot-docker
+    container_name: "spring-boot-docker"
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongo
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+    volumes:
+      - type: bind
+        source: logs
+        target: ${PWD}/logs
